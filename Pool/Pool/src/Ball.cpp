@@ -23,6 +23,13 @@ void Ball::init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStr
 		hue(hueShift, &ball);
 }
 
+void Ball::push(float force, vec2 dir)
+{
+	dir.normalize();
+	force = force / mass;
+	v = v + dir * force;
+}
+
 void Ball::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(ball);

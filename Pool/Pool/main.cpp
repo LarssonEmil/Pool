@@ -6,12 +6,14 @@
 
 #include "../src/Game.h"
 
+
 using namespace std;
 
 sf::RenderWindow rw;
 sf::ContextSettings setting;
 
 sf::Event sfEvent;
+InputStruct in;
 void input();
 
 Game g;
@@ -33,8 +35,8 @@ int main()
 
 void gameInit()
 {
-	//cout << "Physics Project. Pool ridgid colisions" << endl;
-	g.init();
+	cout << "Physics Project" << endl;
+	g.init(&in);
 
 }
 
@@ -77,41 +79,46 @@ void gameLoop()
 
 void input()
 {
-	//rw.pollEvent(sfEvent);
-	//
-	//switch (sfEvent.type)
-	//{
-	//case sf::Event::Closed:
-	//	rw.close();
-	//	break;
-	//case sf::Event::KeyPressed:
-	//	switch (sfEvent.key.code)
-	//	{
-	//	case sf::Keyboard::W: in.W = true; break;
-	//	case sf::Keyboard::A: in.A = true; break;
-	//	case sf::Keyboard::S: in.S = true; break;
-	//	case sf::Keyboard::D: in.D = true; break;
-	//
-	//	default:
-	//		break;
-	//	}
-	//	break;
-	//
-	//case sf::Event::KeyReleased:
-	//	switch (sfEvent.key.code)
-	//	{
-	//	case sf::Keyboard::W: in.W = false; break;
-	//	case sf::Keyboard::A: in.A = false; break;
-	//	case sf::Keyboard::S: in.S = false; break;
-	//	case sf::Keyboard::D: in.D = false; break;
-	//	default:
-	//		break;
-	//	}
-	//default:
-	//	break;
-	//}
-	//
-	////if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-	////else if (sf::Mouse::isButtonPressed(sf::Mouse::Right))
+	rw.pollEvent(sfEvent);
+	
+	switch (sfEvent.type)
+	{
+	case sf::Event::Closed:
+		rw.close();
+		break;
+	default:
+		break;
+	}
+	
+	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		in.LMB = true;
+	else
+		in.LMB = false;
 
+	in.mouse.x = sf::Mouse::getPosition().x - rw.getPosition().x - 9;
+	in.mouse.y = sf::Mouse::getPosition().y - rw.getPosition().y - 38;
+
+		/*case sf::Event::KeyPressed:
+			switch (sfEvent.key.code)
+			{
+			case sf::Keyboard::W: in.W = true; break;
+			case sf::Keyboard::A: in.A = true; break;
+			case sf::Keyboard::S: in.S = true; break;
+			case sf::Keyboard::D: in.D = true; break;
+
+			default:
+				break;
+			}
+			break;
+
+		case sf::Event::KeyReleased:
+			switch (sfEvent.key.code)
+			{
+			case sf::Keyboard::W: in.W = false; break;
+			case sf::Keyboard::A: in.A = false; break;
+			case sf::Keyboard::S: in.S = false; break;
+			case sf::Keyboard::D: in.D = false; break;
+			default:
+				break;
+			}*/
 }

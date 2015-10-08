@@ -18,7 +18,7 @@ public:
 	bool striped;
 
 	void init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStripeTex, float hueShift, bool striped = false);
-	void update(float deltaTime);
+	void push(float force, vec2 dir);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	void hue(float hueShift, sf::Sprite* _sprite);
 };

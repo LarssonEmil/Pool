@@ -158,6 +158,7 @@
   <ItemGroup>
     <ClInclude Include="src\Ball.h" />
     <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\InputStruct.h" />
     <ClInclude Include="src\Table.h" />
     <ClInclude Include="src\vec2.h" />
   </ItemGroup>

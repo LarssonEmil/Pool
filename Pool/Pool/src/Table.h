@@ -6,8 +6,8 @@
 #include <vector>
 
 #define TABLE_EDGE 84
-#define TABLE_LENGTH 1579
-#define TABLE_HEIGHT 873
+#define TABLE_LENGTH 1410
+#define TABLE_HEIGHT 705
 
 using std::vector;
 
@@ -26,6 +26,10 @@ private:
 	sf::Sprite ballShadow;
 	sf::Texture ballShadowTex;
 
+	float friction;
+	float wallCollisionLoss;
+	float firePow;
+
 	//balls
 	vector<Ball> b;
 
@@ -33,10 +37,15 @@ public:
 	~Table();
 	void init();
 	void update(float deltaTime);
+	void mpostest(vec2 in);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	
+
+	void ballFriction(float deltaTime);
 	void moveBalls(float deltaTime);
 	void collideWall();
+	void collideBall();
+
+	void fire(vec2 pos, float charge);
 };
 
 #endif

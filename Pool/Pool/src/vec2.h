@@ -53,11 +53,22 @@ public:
 		return vec2(x + in.x, y + in.y);
 	};
 
+	vec2 operator-(vec2 in)
+	{
+		return vec2(x - in.x, y - in.y);
+	}
+
 	void operator=(vec2 in)
 	{
 		x = in.x;
 		y = in.y;
 	};
+
+	void inverse()
+	{
+		x *= -1;
+		y *= -1;
+	}
 };
 
 #endif
