@@ -30,7 +30,7 @@ int main()
 
 	gameInit();
 	gameLoop();
-};
+}
 
 
 void gameInit()

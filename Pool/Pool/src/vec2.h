@@ -58,12 +58,17 @@ public:
 		return vec2(x - in.x, y - in.y);
 	}
 
+	vec2 operator/(float in)
+	{
+		return vec2(x / in, y / in);
+	}
+
 	void operator=(vec2 in)
 	{
 		x = in.x;
 		y = in.y;
 	};
-
+	
 	void inverse()
 	{
 		x *= -1;

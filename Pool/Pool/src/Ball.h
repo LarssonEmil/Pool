@@ -11,16 +11,19 @@ class Ball
 public:
 	vec2 pos;
 	vec2 v;
-	int mass;
+	float mass;
+	float e;
 
 	sf::Sprite ball;
 	sf::Sprite stripe;
+	sf::Sprite shadow;
 	bool striped;
 
-	void init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStripeTex, float hueShift, bool striped = false);
+	void init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStripeTex, sf::Texture* shadowTex, int colorType, bool striped = false);
 	void push(float force, vec2 dir);
+	void drawShadow(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	void hue(float hueShift, sf::Sprite* _sprite);
+	void recolor(int type, sf::Sprite* _sprite);
 };
 
 #endif

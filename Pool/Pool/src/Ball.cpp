@@ -1,14 +1,21 @@
 #include "Ball.h"
 
-void Ball::init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStripeTex, float hueShift, bool _striped)
+void Ball::init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStripeTex, sf::Texture* shadowTex, int colorType, bool _striped)
 {
 	pos = _pos;
 	mass = _mass;
+	v = vec2(0, 0);
+	e = 1;
+
 	striped = _striped;
 
 	ball.setPosition(pos.x - RADIUS, pos.y - RADIUS);
 	ball.setTexture(*ballTex, true);
 	ball.setTextureRect(sf::IntRect(0, 0, ballTex->getSize().x, ballTex->getSize().y));
+
+	shadow.setPosition(pos.x, pos.y);
+	shadow.setTexture(*shadowTex, true);
+	ball.setTextureRect(sf::IntRect(0, 0, shadowTex->getSize().x, shadowTex->getSize().y));
 
 	if (striped)
 	{
@@ -16,11 +23,11 @@ void Ball::init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStr
 		stripe.setTexture(*ballStripeTex, true);
 		stripe.setTextureRect(sf::IntRect(0, 0, ballStripeTex->getSize().x, ballStripeTex->getSize().y));
 
-		hue(hueShift, &stripe);
+		recolor(colorType, &stripe);
 		return;
 	}
-	if(hueShift > 0)
-		hue(hueShift, &ball);
+	if(colorType > 0 && colorType < 16)
+		recolor(colorType, &ball);
 }
 
 void Ball::push(float force, vec2 dir)
@@ -30,6 +37,11 @@ void Ball::push(float force, vec2 dir)
 	v = v + dir * force;
 }
 
+void Ball::drawShadow(sf::RenderTarget& target, sf::RenderStates states) const
+{
+	target.draw(shadow);
+}
+
 void Ball::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(ball);
@@ -37,66 +49,27 @@ void Ball::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		target.draw(stripe);
 }
 
-void Ball::hue(float hueShift, sf::Sprite* _sprite)
+void Ball::recolor(int type, sf::Sprite* _sprite)
 {
-	float* lastHue = new float(0);
-	*lastHue = 0;
-
-	int r = 0;
-	int g = 0;
-	int b = 0;
-
-	if (hueShift > 1 || hueShift < -1)
-		return;
-
-	*lastHue += hueShift;
-	if (*lastHue > 1.0f)
-		*lastHue -= 1.0f;
-	else if (*lastHue < 0.0f)
-		*lastHue += 1.0f;
-
-	hueShift = *lastHue;
-
-	//what color to keep
-	if (hueShift > 0.82f || hueShift < 0.16f)
-		r = 254;
-	else if (hueShift > 0.15999f && hueShift < 0.5f)
-		g = 254;
-	else
-		b = 254;
-
-	//what color to scale
-	int* temp;
-
-	if (hueShift < 0.16f)
+	sf::Color c;
+	switch (type)
 	{
-		g = (hueShift / 0.16f) * 250;
+	case 1: 
+	case 9:c.r = 255; c.g = 178; c.b = 60;  break;
+	case 2:
+	case 10: c.r = 23; c.g = 85; c.b = 124;  break;
+	case 3: 
+	case 11: c.r = 221; c.g = 66; c.b = 61;  break;
+	case 4:
+	case 12: c.r = 78; c.g = 42; c.b = 112;  break;
+	case 5: 
+	case 13: c.r = 243; c.g = 117; c.b = 43;  break;
+	case 6:
+	case 14: c.r = 40; c.g = 102; c.b = 53;  break;
+	case 7: 
+	case 15: c.r = 150; c.g = 25; c.b = 29;  break;
+	case 8: c.r = 50; c.g = 50; c.b = 50;  break;
 	}
-	else if (hueShift < 0.32f)
-	{
-		hueShift -= 0.16f;
-		r = 255 - (hueShift / 0.16f) * 250;
-	}
-	else if (hueShift < 0.5f)
-	{
-		hueShift -= 0.32f;
-		b = (hueShift / 0.18f) * 250;
-	}
-	else if (hueShift < 0.66f)
-	{
-		hueShift -= 0.5f;
-		g = 255 - (hueShift / 0.16f) * 250;
-	}
-	else if (hueShift < 0.82f)
-	{
-		hueShift -= 0.66f;
-		r = (hueShift / 0.16f) * 250;
-	}
-	else
-	{
-		hueShift -= 0.82f;
-		b = 255 - (hueShift / 0.18f) * 250;
-	}
-	_sprite->setColor(sf::Color(r, g, b));
-	delete lastHue;
+
+	_sprite->setColor(c);
 }

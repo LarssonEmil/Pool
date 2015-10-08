@@ -28,21 +28,48 @@ void Table::init()
 	ballShadow.setTexture(ballShadowTex, true);
 	ballShadow.setTextureRect(sf::IntRect(0, 0, ballShadowTex.getSize().x, ballShadowTex.getSize().y));
 
-	b.push_back(Ball());
-	b.push_back(Ball());
-	b.push_back(Ball());
+	for (int n = 0; n < 16; n++)
+	{
+		b.push_back(Ball());
+	}
 
-	b[0].init(vec2(120, 120), 1, &ballTex, &ballStripeTex, -1, false);
-	b[1].init(vec2(200, 200), 1, &ballTex, &ballStripeTex, 0.5, false);
-	b[2].init(vec2(400, 400), 1, &ballTex, &ballStripeTex, 0.3, true);
+	//white
+	b[0].init(vec2(TABLE_EDGE * 5, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
 
-	b[0].push(1000, vec2(1, 0));
-	b[1].push(1000, vec2(1, 1));
-	b[2].push(1000, vec2(1, -0.75));
+	//1st row
+	b[1].init(vec2(1144 - RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1, false);
+	//2nd row
+	b[2].init(vec2(1144 - RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 2, false);
+	b[3].init(vec2(1144 - RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 3, false);
+	//3rd row
+	b[4].init(vec2(1144, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 4, false);
+	b[5].init(vec2(1144, 433 + RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 5, false);
+	b[6].init(vec2(1144, 433 - RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 6, false);
+	//4th row
+	b[7].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 7, false);
+	b[8].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 8, false);
+	b[9].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 9, true);
+	b[10].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 10, true);
+	//5th row
+	b[11].init(vec2(1144 + RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 11, true);
+	b[12].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 12, true);
+	b[13].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 13, true);
+	b[14].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 14, true);
+	b[15].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 15, true);
 
 	friction = 100;
 	wallCollisionLoss = 0.8;
-	firePow = 20000;
+	firePow = 2000;
+
+	b[0].mass = 1;
+	b[0].e = 1;
+
+	corners.push_back(vec2(100, 100)); //top left
+	corners.push_back(vec2(788, 72)); // top middle
+	corners.push_back(vec2(1478, 98)); // top right
+	corners.push_back(vec2(100, 771)); // bot left
+	corners.push_back(vec2(790, 797)); // bot middle
+	corners.push_back(vec2(1479, 772)); // bot right
 }
 
 void Table::update(float deltaTime)
@@ -89,6 +116,7 @@ void Table::moveBalls(float deltaTime)
 
 		b[n].ball.setPosition(b[n].pos.x - RADIUS, b[n].pos.y - RADIUS);
 		b[n].stripe.setPosition(b[n].pos.x - RADIUS, b[n].pos.y - RADIUS);
+		b[n].shadow.setPosition(b[n].pos.x - 10, b[n].pos.y - 10);
 	}
 }
 
@@ -160,13 +188,25 @@ void Table::collideBall()
 			vec2 d = b[n].pos - b[k].pos;
 
 			//if distance less than radius = collision
-			if (d.len() < RADIUS) 
+			if (d.len() < RADIUS * 2) 
 			{
-				float va = b[n].v.dot(d);
-				float vb = b[k].v.dot(d);
+				d.normalize();
+				vec2 va0 = d * b[n].v.dot(d);
+				vec2 vb0 = d * b[k].v.dot(d);
 
-				//elastisk collision
+				//elastisk average
+				float e = (b[n].e + b[k].e) / 2;
 
+				vec2 va1 = (va0 * (b[n].mass - b[k].mass * e) +
+					vb0 * b[k].mass * (1 + e)) / (b[n].mass + b[k].mass);
+
+				vec2 vb1 = (va0 * b[n].mass * (1 + e) +
+					vb0 * (b[k].mass - b[n].mass * e)) / (b[n].mass + b[k].mass);
+				
+				//apply new velocity
+
+				b[n].v = b[n].v - va0 + va1;
+				b[k].v = b[k].v - vb0 + vb1;
 			}
 		}
 
@@ -183,7 +223,10 @@ void Table::fire(vec2 pos, float charge)
 	{
 		vec2 d = pos - b[n].pos;
 		if (d.len() < closestDist)
+		{
+			closestDist = d.len();
 			closestID = n;
+		}
 	}
 
 	//if none found
@@ -204,11 +247,16 @@ void Table::mpostest(vec2 in)
 void Table::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
 	target.draw(botLayer);
+
+	int size = b.size();
 	//draw ball shadows
+	for (int n = 0; n < size; n++)
+		b[n].drawShadow(target, states);
+
 	//draw balls
-	b[0].draw(target, states);
-	b[1].draw(target, states);
-	b[2].draw(target, states);
+	for (int n = 0; n < size; n++)
+		b[n].draw(target, states);
+
 	target.draw(topLayer);
 	target.draw(ballShadow);
 	

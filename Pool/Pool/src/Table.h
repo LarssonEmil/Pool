@@ -30,6 +30,9 @@ private:
 	float wallCollisionLoss;
 	float firePow;
 
+	//corner pos
+	vector<vec2> corners;
+
 	//balls
 	vector<Ball> b;
 
