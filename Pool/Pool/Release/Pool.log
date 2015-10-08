@@ -1,0 +1,15 @@
+﻿Build started 07/10/2015 15:24:14.
+     1>Project "C:\Users\Emil\Documents\GitHub\Pool\Pool\Pool\Pool.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /sdl /O2 /Oi /Oy- /GL /D WIN32 /D NDEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Release\\" /Fd"Release\vc140.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp src\Game.cpp src\Table.cpp
+         main.cpp
+     1>main.cpp(3): fatal error C1083: Cannot open include file: '../SFML/Graphics.hpp': No such file or directory
+         Game.cpp
+     1>c:\users\emil\documents\github\pool\pool\pool\src\../SFML/Graphics.hpp(32): fatal error C1083: Cannot open include file: 'SFML/Window.hpp': No such file or directory
+         Table.cpp
+     1>c:\users\emil\documents\github\pool\pool\pool\src\../SFML/Graphics.hpp(32): fatal error C1083: Cannot open include file: 'SFML/Window.hpp': No such file or directory
+     1>Done Building Project "C:\Users\Emil\Documents\GitHub\Pool\Pool\Pool\Pool.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:00.65

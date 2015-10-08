@@ -151,6 +151,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Ball.cpp" />
+    <ClCompile Include="src\Game.cpp" />
+    <ClCompile Include="src\Table.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Ball.h" />
+    <ClInclude Include="src\Game.h" />
+    <ClInclude Include="src\Table.h" />
+    <ClInclude Include="src\vec2.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
