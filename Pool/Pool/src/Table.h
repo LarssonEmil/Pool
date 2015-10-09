@@ -30,6 +30,9 @@ private:
 	sf::Sprite ballShadow;
 	sf::Texture ballShadowTex;
 
+	sf::Sprite aim;
+	sf::Texture aimTex;
+
 	float friction;
 	float wallCollisionLoss;
 	float firePow;

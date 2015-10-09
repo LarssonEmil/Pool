@@ -1,0 +1,18 @@
+﻿Build started 2015-10-09 21:47:12.
+     1>Project "D:\Base\Documents\GitHub\Pool\Pool\Pool\Pool.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /Zi /nologo /W3 /WX- /sdl /Od /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt main.cpp src\Ball.cpp src\Game.cpp src\Table.cpp
+         Table.cpp
+     1>d:\base\documents\github\pool\pool\pool\src\../SFML/Graphics.hpp(32): fatal error C1083: Cannot open include file: 'SFML/Window.hpp': No such file or directory
+         Game.cpp
+     1>d:\base\documents\github\pool\pool\pool\src\../SFML/Graphics.hpp(32): fatal error C1083: Cannot open include file: 'SFML/Window.hpp': No such file or directory
+         Ball.cpp
+     1>d:\base\documents\github\pool\pool\pool\src\../SFML/Graphics.hpp(32): fatal error C1083: Cannot open include file: 'SFML/Window.hpp': No such file or directory
+         main.cpp
+     1>main.cpp(3): fatal error C1083: Cannot open include file: '../SFML/Graphics.hpp': No such file or directory
+         Generating Code...
+     1>Done Building Project "D:\Base\Documents\GitHub\Pool\Pool\Pool\Pool.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:01.53

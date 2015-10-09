@@ -448,6 +448,44 @@ void Table::loadSenario(int id)
 
 		break;
 	case 8:
+
+		run = false;
+		LastCollisionIgnore = true;
+		rw->setVerticalSyncEnabled(false);
+
+		for (int n = 0; n < 16; n++)
+			b.push_back(Ball());
+
+		//white
+		b[0].init(vec2(TABLE_EDGE * 5, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
+
+		//1st row
+		b[1].init(vec2(1144 - RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1, false);
+		//2nd row
+		b[2].init(vec2(1144 - RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 2, false);
+		b[3].init(vec2(1144 - RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 3, false);
+		//3rd row
+		b[4].init(vec2(1144, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 4, false);
+		b[5].init(vec2(1144, 433 + RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 5, false);
+		b[6].init(vec2(1144, 433 - RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 6, false);
+		//4th row
+		b[7].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 7, false);
+		b[8].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 8, false);
+		b[9].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 9, true);
+		b[10].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 10, true);
+		//5th row
+		b[11].init(vec2(1144 + RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 11, true);
+		b[12].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 12, true);
+		b[13].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 13, true);
+		b[14].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 14, true);
+		b[15].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 15, true);
+
+		b[0].mass = 100;
+		b[0].push(80000, vec2(1, 0));
+
+		for (int n = 0; n < 16; n++)
+			b[n].e = 0;
+
 		break;
 	case 9:
 		break;
