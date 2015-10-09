@@ -13,11 +13,12 @@ class Game : public sf::Drawable
 private:
 	Table table;
 	InputStruct* in;
+	sf::RenderWindow* rw;
+
 	float charge;
 	bool lastLMB;
-
 public:
-	void init(InputStruct* _in);
+	void init(InputStruct* _in, sf::RenderWindow* _rw);
 	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	~Game();
 	void update(float deltaTime);

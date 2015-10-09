@@ -14,6 +14,8 @@ public:
 	float mass;
 	float e;
 
+	Ball* lastCollide;
+
 	sf::Sprite ball;
 	sf::Sprite stripe;
 	sf::Sprite shadow;

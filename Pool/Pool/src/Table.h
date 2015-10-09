@@ -3,6 +3,7 @@
 
 #include "../SFML/Graphics.hpp"
 #include "Ball.h"
+#include "InputStruct.h"
 #include <vector>
 
 #define TABLE_EDGE 84
@@ -14,6 +15,9 @@ using std::vector;
 class Table
 {
 private:
+	InputStruct* in;
+	sf::RenderWindow* rw;
+
 	sf::Sprite botLayer;
 	sf::Texture botTexture;
 
@@ -30,6 +34,9 @@ private:
 	float wallCollisionLoss;
 	float firePow;
 
+	bool LastCollisionIgnore;
+	bool run;
+
 	//corner pos
 	vector<vec2> corners;
 
@@ -38,17 +45,19 @@ private:
 
 public:
 	~Table();
-	void init();
+	void init(InputStruct* _in, sf::RenderWindow* _rw);
 	void update(float deltaTime);
 	void mpostest(vec2 in);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	void ballFriction(float deltaTime);
 	void moveBalls(float deltaTime);
-	void collideWall();
+	void collideWall(float deltaTime);
 	void collideBall();
 
 	void fire(vec2 pos, float charge);
+
+	void loadSenario(int id);
 };
 
 #endif

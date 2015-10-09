@@ -7,6 +7,8 @@ void Ball::init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStr
 	v = vec2(0, 0);
 	e = 1;
 
+	lastCollide = 0;
+
 	striped = _striped;
 
 	ball.setPosition(pos.x - RADIUS, pos.y - RADIUS);
