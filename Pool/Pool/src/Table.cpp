@@ -5,10 +5,11 @@ Table::~Table()
 
 }
 
-void Table::init(InputStruct* _in, sf::RenderWindow* _rw)
+void Table::init(InputStruct* _in, sf::RenderWindow* _rw, float* _charge)
 {
 	in = _in;
 	rw = _rw;
+	charge = _charge;
 
 	//Botom texture
 	botLayer.setPosition(0, 0);
@@ -31,9 +32,20 @@ void Table::init(InputStruct* _in, sf::RenderWindow* _rw)
 	ballShadow.setTexture(ballShadowTex, true);
 	ballShadow.setTextureRect(sf::IntRect(0, 0, ballShadowTex.getSize().x, ballShadowTex.getSize().y));
 
+	//Aim texture and sprite
+	aimTex.loadFromFile("src/Textures/aim.png");
+	for (int n = 0; n < 10; n++)
+	{
+		aim[n].setTexture(aimTex, true);
+		aim[n].setTextureRect(sf::IntRect(0, 0, aimTex.getSize().x, aimTex.getSize().y));
+		//if(n != 0)
+			//aim[n].setColor(sf::Color(1, 1, 1));
+	}
+	aim[0].scale(2, 2);
+	
 	friction = 100;
-	wallCollisionLoss = 0.8;
-	firePow = 2000;
+	wallCollisionLoss = 0.8f;
+	firePow = 1000;
 
 	corners.push_back(vec2(100, 100)); //top left
 	corners.push_back(vec2(788, 72)); // top middle
@@ -47,6 +59,8 @@ void Table::init(InputStruct* _in, sf::RenderWindow* _rw)
 
 void Table::update(float deltaTime)
 {
+	setAimline();
+
 	if (in->Space)
 		run = true;
 	if(!run)
@@ -59,6 +73,8 @@ void Table::update(float deltaTime)
 	collideWall(deltaTime);
 
 	collideBall();
+
+	spawnWhite();
 }
 
 void Table::ballFriction(float deltaTime)
@@ -114,12 +130,12 @@ void Table::collideWall(float deltaTime)
 
 			float len = d.len();
 
-			if (len < RADIUS * 2.4)
+			if (len < RADIUS * 2.4f)
 			{
 				colse_to_hole = true;
 				
 				//Remove the ball from the game
-				if (len < RADIUS * 1.5)
+				if (len < RADIUS * 1.5f)
 				{
 					b.erase(b.begin() + n);
 					n--;
@@ -129,7 +145,7 @@ void Table::collideWall(float deltaTime)
 				//add a force towards hole
 				d.normalize();
 				d.inverse();
-				b[n].push((RADIUS * 2.4 - len) * 100 * b[n].mass * deltaTime, d);
+				b[n].push((RADIUS * 2.4f - len) * 50.0f * b[n].mass * deltaTime, d);
 				break;
 			}
 		}
@@ -237,7 +253,7 @@ void Table::collideBall()
 	}
 }
 
-void Table::fire(vec2 pos, float charge)
+void Table::fire(vec2 pos, float _charge)
 {
 	//Find the closest ball
 	int closestID = -1;
@@ -257,18 +273,13 @@ void Table::fire(vec2 pos, float charge)
 	if (closestID == -1)
 		return;
 
-	if (closestDist > RADIUS * 3)
+	if (closestDist > RADIUS * 6)
 		return;
 
 	vec2 d = pos - b[closestID].pos;
 	d.inverse();
 
-	b[closestID].push(charge * firePow, d);
-}
-
-void Table::mpostest(vec2 in)
-{
-	ballShadow.setPosition(in.x - RADIUS, in.y - RADIUS);
+	b[closestID].push(_charge * firePow, d);
 }
 
 void Table::draw(sf::RenderTarget& target, sf::RenderStates states) const
@@ -285,8 +296,91 @@ void Table::draw(sf::RenderTarget& target, sf::RenderStates states) const
 		b[n].draw(target, states);
 
 	target.draw(topLayer);
-	target.draw(ballShadow);
+
+	for (int n = 0; n < 10; n++)
+		target.draw(aim[n]);
+}
+
+void Table::setAimline()
+{
+	//mouse pos
+	aim[0].setPosition(in->mouse.x - aimsize * 2, in->mouse.y - aimsize * 2);
+
+	//Find the closest ball
+	int closestID = -1;
+	float closestDist = 2000;
+	int size = b.size();
+	vec2 d;
+	for (int n = 0; n < size; n++)
+	{
+		d = in->mouse - b[n].pos;
+		if (d.len() < closestDist)
+		{
+			closestDist = d.len();
+			closestID = n;
+		}
+	}
+
+	//if none found
+	if (closestID == -1 || closestDist > RADIUS * 6)
+	{
+		//Hide the aim dots
+		for (int n = 1; n < 10; n++)
+			aim[n].setPosition(- 100, -100);
+		return;
+	}
+
+	d = in->mouse - b[closestID].pos;
+	vec2 posOriginate = b[closestID].pos;
+	d.normalize();
+	d.inverse();
 	
+	for (int n = 1; n < 10; n++)
+	{
+		posOriginate = posOriginate + d * RADIUS * 2;
+		aim[n].setPosition(posOriginate.x - aimsize, posOriginate.y - aimsize);
+	}
+
+	int redCharge = (*charge / 3.0f) * 10;
+	for (int n = 1; n < 10; n++)
+	{
+		if (redCharge - n > 0)
+		{
+			aim[n].setColor(sf::Color(255, 255, 255));
+			aim[n].setScale(2, 2);
+			aim[n].move(-aimsize, -aimsize);
+		}
+		else
+		{
+			aim[n].setColor(sf::Color(0, 0, 0));
+			aim[n].setScale(1.0f, 1.0f);
+		}
+	}
+}
+
+void Table::spawnWhite()
+{
+	//1145 436
+	if (in->enter)
+	{
+		int size = b.size();
+
+		bool spawn = false;
+		if (size > 0)
+		{
+			//if first an last balls are not white 
+			if (b[size - 1].colortype != -1 && b[0].colortype != -1)
+				spawn = true;
+		}
+		else
+			spawn = true;
+
+		if (spawn)
+		{
+			b.push_back(Ball());
+			b[size].init(vec2(1145, 436), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
+		}
+	}
 }
 
 void Table::loadSenario(int id)
@@ -355,9 +449,9 @@ void Table::loadSenario(int id)
 		b[0].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
 		b[1].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT + TABLE_EDGE / 2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1, false);
 
-		b[0].push(800, vec2(1, 0));
+		b[0].push(800, vec2(1.0f, 0.0f));
 		b[0].e = 1;
-		b[1].push(1200, vec2(1.4, 1));
+		b[1].push(1200, vec2(1.4f, 1.0f));
 		b[1].e = 1;
 
 		break;

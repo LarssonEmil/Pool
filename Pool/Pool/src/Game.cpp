@@ -9,20 +9,24 @@ void Game::init(InputStruct* _in, sf::RenderWindow* _rw)
 {
 	in = _in;
 	rw = _rw;
-	table.init(_in, _rw);
-
 	charge = 0;
 	lastLMB = false;
+
+	table.init(_in, _rw, &charge);
+
+	
 }
 
 void Game::update(float deltaTime)
 {
-	//draws a shadow where the mouse is to make sure it can read the mouse pos correctly
-	table.mpostest(in->mouse);
 
 	//Charges upp the power that fires away balls ----
 	if (in->LMB)
+	{
 		charge += 1 * deltaTime;
+		if (charge > 3.0f)
+			charge = 3.0f;
+	}
 	else
 		if (lastLMB == true) //button released
 		{

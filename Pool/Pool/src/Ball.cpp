@@ -6,6 +6,7 @@ void Ball::init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStr
 	mass = _mass;
 	v = vec2(0, 0);
 	e = 1;
+	colortype = colorType;
 
 	lastCollide = 0;
 

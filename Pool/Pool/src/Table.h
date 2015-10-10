@@ -30,7 +30,8 @@ private:
 	sf::Sprite ballShadow;
 	sf::Texture ballShadowTex;
 
-	sf::Sprite aim;
+	#define aimsize 3
+	sf::Sprite aim[10];
 	sf::Texture aimTex;
 
 	float friction;
@@ -46,11 +47,12 @@ private:
 	//balls
 	vector<Ball> b;
 
+	float* charge;
+
 public:
 	~Table();
-	void init(InputStruct* _in, sf::RenderWindow* _rw);
+	void init(InputStruct* _in, sf::RenderWindow* _rw, float* _charge);
 	void update(float deltaTime);
-	void mpostest(vec2 in);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 	void ballFriction(float deltaTime);
@@ -59,7 +61,8 @@ public:
 	void collideBall();
 
 	void fire(vec2 pos, float charge);
-
+	void setAimline();
+	void spawnWhite();
 	void loadSenario(int id);
 };
 

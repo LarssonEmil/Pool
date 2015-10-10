@@ -27,7 +27,7 @@ int main()
 {
 	rw.create(sf::VideoMode(1579, 873), "Pool", sf::Style::Close, setting);
 	rw.setVerticalSyncEnabled(false);
-
+	rw.setMouseCursorVisible(false);
 	gameInit();
 	gameLoop();
 }
@@ -123,6 +123,11 @@ void input()
 		in.LMB = true;
 	else
 		in.LMB = false;
+
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+		in.enter = true;
+	else
+		in.enter = false;
 
 	in.mouse.x = sf::Mouse::getPosition().x - rw.getPosition().x - 9;
 	in.mouse.y = sf::Mouse::getPosition().y - rw.getPosition().y - 38;

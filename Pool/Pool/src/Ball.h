@@ -13,6 +13,7 @@ public:
 	vec2 v;
 	float mass;
 	float e;
+	int colortype;
 
 	Ball* lastCollide;
 

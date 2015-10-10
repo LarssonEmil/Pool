@@ -9,6 +9,7 @@ struct InputStruct
 public:
 	bool LMB = false;
 	bool Space = false;
+	bool enter = false;
 	vec2 mouse;
 
 	bool released_1 = false;
