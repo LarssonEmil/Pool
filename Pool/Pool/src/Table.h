@@ -4,6 +4,7 @@
 #include "../SFML/Graphics.hpp"
 #include "Ball.h"
 #include "InputStruct.h"
+#include "audio.h"
 #include <vector>
 
 #define TABLE_EDGE 84
@@ -48,6 +49,8 @@ private:
 	vector<Ball> b;
 
 	float* charge;
+	
+	Audioo audio;
 
 public:
 	~Table();

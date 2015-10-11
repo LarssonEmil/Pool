@@ -36,5 +36,8 @@
     <ClInclude Include="src\InputStruct.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

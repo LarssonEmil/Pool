@@ -54,6 +54,8 @@ void Table::init(InputStruct* _in, sf::RenderWindow* _rw, float* _charge)
 	corners.push_back(vec2(790, 797)); // bot middle
 	corners.push_back(vec2(1479, 772)); // bot right
 
+	audio.init();
+
 	loadSenario(1);
 }
 
@@ -130,7 +132,7 @@ void Table::collideWall(float deltaTime)
 
 			float len = d.len();
 
-			if (len < RADIUS * 2.4f)
+			if (len < RADIUS * 3.0f)
 			{
 				colse_to_hole = true;
 				
@@ -140,12 +142,14 @@ void Table::collideWall(float deltaTime)
 					b.erase(b.begin() + n);
 					n--;
 					size--;
+
+					audio.play(4, 1, 1, in->Space);
 					break;
 				}
 				//add a force towards hole
 				d.normalize();
 				d.inverse();
-				b[n].push((RADIUS * 2.4f - len) * 50.0f * b[n].mass * deltaTime, d);
+				b[n].push((RADIUS * 3.0f - len) * 50.0f * b[n].mass * deltaTime, d);
 				break;
 			}
 		}
@@ -155,6 +159,8 @@ void Table::collideWall(float deltaTime)
 
 		int collide = 0;
 
+		float speedLen = 0;
+
 		// Y DIR
 
 		float yTop = b[n].pos.y - TABLE_EDGE - RADIUS;
@@ -162,6 +168,7 @@ void Table::collideWall(float deltaTime)
 		{
 			b[n].pos.y += (yTop* -1) * 2;
 			b[n].v.y *= -1; //inverse y speed dir
+			speedLen = b[n].v.y;
 			collide++;
 		}
 	
@@ -170,6 +177,7 @@ void Table::collideWall(float deltaTime)
 		{
 			b[n].pos.y -= (yBot * 2);
 			b[n].v.y *= -1; //inverse y speed dir
+			speedLen = b[n].v.y;
 			collide++;
 		}
 
@@ -180,6 +188,7 @@ void Table::collideWall(float deltaTime)
 		{
 			b[n].pos.x += (left* -1) * 2;
 			b[n].v.x *= -1; //inverse x speed dir
+			speedLen = b[n].v.x;
 			collide++;
 		}
 
@@ -188,13 +197,20 @@ void Table::collideWall(float deltaTime)
 		{
 			b[n].pos.x -= (right * 2);
 			b[n].v.x *= -1; //inverse x speed dir
+			speedLen = b[n].v.x;
 			collide++;
 		}
 
 		//energy loss on each collision
 		if (collide > 0)
+		{
+			if (speedLen < 0)
+				speedLen *= -1;
+
+			audio.play(3, 500, speedLen, in->Space);
 			for (int k = 0; k < collide; k++)
 				b[n].v = b[n].v * wallCollisionLoss;
+		}
 	}
 }
 
@@ -245,6 +261,13 @@ void Table::collideBall()
 				//apply new velocity
 				b[n].v = b[n].v - va0 + va1;
 				b[k].v = b[k].v - vb0 + vb1;
+
+				//speed differance
+				float diff = (va0 - va1).len();
+				diff += (vb0 - vb1).len();
+				diff *= 0.5f;
+
+				audio.play(2, 1000, diff, in->Space);
 			}		
 		}
 
@@ -275,6 +298,8 @@ void Table::fire(vec2 pos, float _charge)
 
 	if (closestDist > RADIUS * 6)
 		return;
+
+	audio.play(1, 3, *charge, in->Space);
 
 	vec2 d = pos - b[closestID].pos;
 	d.inverse();
