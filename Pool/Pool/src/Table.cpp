@@ -403,7 +403,7 @@ void Table::spawnWhite()
 		if (spawn)
 		{
 			b.push_back(Ball());
-			b[size].init(vec2(1145, 436), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
+			b[size].init(vec2(1145, 436), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1);
 		}
 	}
 }
@@ -412,67 +412,74 @@ void Table::loadSenario(int id)
 {
 	b.clear();
 
+	//default values
+	run = false;
+	LastCollisionIgnore = true;
+	rw->setVerticalSyncEnabled(false);
+
 	switch(id)
 	{
-	case 1: // 1 white + 15 Ball Triangle
-
-		run = false;
-		LastCollisionIgnore = true;
-		rw->setVerticalSyncEnabled(false);
+	case 1: // 8 Ball
 
 		for (int n = 0; n < 16; n++)
 			b.push_back(Ball());
 
-			//white
-		b[0].init(vec2(TABLE_EDGE * 5, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
+		//white
+		b[0].init(vec2(TABLE_EDGE * 5, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1);
 
 		//1st row
-		b[1].init(vec2(1144 - RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1, false);
+		b[1].init(vec2(1244 - RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1);
 		//2nd row
-		b[2].init(vec2(1144 - RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 2, false);
-		b[3].init(vec2(1144 - RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 3, false);
+		b[2].init(vec2(1244 - RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 2);
+		b[3].init(vec2(1244 - RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 10);
 		//3rd row
-		b[4].init(vec2(1144, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 4, false);
-		b[5].init(vec2(1144, 433 + RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 5, false);
-		b[6].init(vec2(1144, 433 - RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 6, false);
+		b[4].init(vec2(1244, 433 - RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 11);
+		b[5].init(vec2(1244, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 8);
+		b[6].init(vec2(1244, 433 + RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 3);
 		//4th row
-		b[7].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 7, false);
-		b[8].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 8, false);
-		b[9].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 9, true);
-		b[10].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 10, true);
+		b[7].init(vec2(1244 + RADIUS * 2.1, 433 - RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 4);
+		b[8].init(vec2(1244 + RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 13);
+		b[9].init(vec2(1244 + RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 5);
+		b[10].init(vec2(1244 + RADIUS * 2.1, 433 + RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 12);
 		//5th row
-		b[11].init(vec2(1144 + RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 11, true);
-		b[12].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 12, true);
-		b[13].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 13, true);
-		b[14].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 14, true);
-		b[15].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 15, true);
+		b[11].init(vec2(1244 + RADIUS * 4.1, 433 - RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 14);
+		b[12].init(vec2(1244 + RADIUS * 4.1, 433 - RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 7);
+		b[13].init(vec2(1244 + RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 9);
+		b[14].init(vec2(1244 + RADIUS * 4.1, 433 + RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 15);
+		b[15].init(vec2(1244 + RADIUS * 4.1, 433 + RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 6);
 		break;
 
-	case 2: //colision speed transfere
+	case 2: // 9 ball
 
-		run = false;
-		LastCollisionIgnore = true;
-		rw->setVerticalSyncEnabled(true);
-		for (int n = 0; n < 2; n++)
+		for (int n = 0; n < 10; n++)
 			b.push_back(Ball());
 
-		b[0].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
-		b[1].init(vec2(TABLE_LENGTH, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1, false);
+		//white
+		b[0].init(vec2(TABLE_EDGE * 5, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1);
 
-		b[0].push(1000, vec2(1, 0));
-		b[1].push(0, vec2(-1, 0));
-
+		//1st row
+		b[1].init(vec2(1244 - RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1);
+		//2nd row
+		b[2].init(vec2(1244 - RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 2);
+		b[3].init(vec2(1244 - RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 3);
+		//3rd row
+		b[4].init(vec2(1244, 433 - RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 4);
+		b[5].init(vec2(1244, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 9);
+		b[6].init(vec2(1244, 433 + RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 5);
+		//4th row		
+		b[7].init(vec2(1244 + RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 6);
+		b[8].init(vec2(1244 + RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 7);
+		//5th row	
+		b[9].init(vec2(1244 + RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 8);
 		break;
+
 	case 3: //normal side collision
 
-		run = false;
-		LastCollisionIgnore = true;
-		rw->setVerticalSyncEnabled(false);
 		for (int n = 0; n < 2; n++)
 			b.push_back(Ball());
 
-		b[0].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
-		b[1].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT + TABLE_EDGE / 2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1, false);
+		b[0].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1);
+		b[1].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT + TABLE_EDGE / 2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1);
 
 		b[0].push(800, vec2(1.0f, 0.0f));
 		b[0].e = 1;
@@ -488,8 +495,8 @@ void Table::loadSenario(int id)
 		for (int n = 0; n < 2; n++)
 			b.push_back(Ball());
 
-		b[0].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
-		b[1].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT + TABLE_EDGE / 2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1, false);
+		b[0].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1);
+		b[1].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT + TABLE_EDGE / 2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1);
 
 		b[0].push(800, vec2(1, 0));
 		b[0].e = 0;
@@ -505,8 +512,8 @@ void Table::loadSenario(int id)
 		for (int n = 0; n < 2; n++)
 			b.push_back(Ball());
 
-		b[0].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
-		b[1].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT + TABLE_EDGE / 2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1, false);
+		b[0].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1);
+		b[1].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT + TABLE_EDGE / 2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1);
 
 		b[0].mass = 5;
 		b[0].push(4000, vec2(1, 0));
@@ -521,8 +528,8 @@ void Table::loadSenario(int id)
 		for (int n = 0; n < 2; n++)
 			b.push_back(Ball());
 
-		b[0].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
-		b[1].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT + TABLE_EDGE / 2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1, false);
+		b[0].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1);
+		b[1].init(vec2(TABLE_EDGE * 2, TABLE_HEIGHT + TABLE_EDGE / 2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1);
 
 		b[0].mass = 0.5;
 		b[0].push(400, vec2(1, 0));
@@ -539,28 +546,28 @@ void Table::loadSenario(int id)
 			b.push_back(Ball());
 
 		//white
-		b[0].init(vec2(TABLE_EDGE * 5, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
+		b[0].init(vec2(TABLE_EDGE * 5, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1);
 
 		//1st row
-		b[1].init(vec2(1144 - RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1, false);
+		b[1].init(vec2(1144 - RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1);
 		//2nd row
-		b[2].init(vec2(1144 - RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 2, false);
-		b[3].init(vec2(1144 - RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 3, false);
+		b[2].init(vec2(1144 - RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 2);
+		b[3].init(vec2(1144 - RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 10);
 		//3rd row
-		b[4].init(vec2(1144, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 4, false);
-		b[5].init(vec2(1144, 433 + RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 5, false);
-		b[6].init(vec2(1144, 433 - RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 6, false);
+		b[4].init(vec2(1144, 433 - RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 11);
+		b[5].init(vec2(1144, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 8);
+		b[6].init(vec2(1144, 433 + RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 3);
 		//4th row
-		b[7].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 7, false);
-		b[8].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 8, false);
-		b[9].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 9, true);
-		b[10].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 10, true);
+		b[7].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 4);
+		b[8].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 13);
+		b[9].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 5);
+		b[10].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 12);
 		//5th row
-		b[11].init(vec2(1144 + RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 11, true);
-		b[12].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 12, true);
-		b[13].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 13, true);
-		b[14].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 14, true);
-		b[15].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 15, true);
+		b[11].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 14);
+		b[12].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 7);
+		b[13].init(vec2(1144 + RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 9);
+		b[14].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 15);
+		b[15].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 6);
 
 		b[0].mass = 100;
 		b[0].push(80000, vec2(1, 0));
@@ -576,28 +583,28 @@ void Table::loadSenario(int id)
 			b.push_back(Ball());
 
 		//white
-		b[0].init(vec2(TABLE_EDGE * 5, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1, false);
+		b[0].init(vec2(TABLE_EDGE * 5, TABLE_HEIGHT / 2 + TABLE_EDGE), 1, &ballTex, &ballStripeTex, &ballShadowTex, -1);
 
 		//1st row
-		b[1].init(vec2(1144 - RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1, false);
+		b[1].init(vec2(1144 - RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 1);
 		//2nd row
-		b[2].init(vec2(1144 - RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 2, false);
-		b[3].init(vec2(1144 - RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 3, false);
+		b[2].init(vec2(1144 - RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 2);
+		b[3].init(vec2(1144 - RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 10);
 		//3rd row
-		b[4].init(vec2(1144, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 4, false);
-		b[5].init(vec2(1144, 433 + RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 5, false);
-		b[6].init(vec2(1144, 433 - RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 6, false);
+		b[4].init(vec2(1144, 433 - RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 11);
+		b[5].init(vec2(1144, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 8);
+		b[6].init(vec2(1144, 433 + RADIUS * 2.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 3);
 		//4th row
-		b[7].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 7, false);
-		b[8].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 8, false);
-		b[9].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 9, true);
-		b[10].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 10, true);
+		b[7].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 4);
+		b[8].init(vec2(1144 + RADIUS * 2.1, 433 - RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 13);
+		b[9].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 1.1), 1, &ballTex, &ballStripeTex, &ballShadowTex, 5);
+		b[10].init(vec2(1144 + RADIUS * 2.1, 433 + RADIUS * 3.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 12);
 		//5th row
-		b[11].init(vec2(1144 + RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 11, true);
-		b[12].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 12, true);
-		b[13].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 13, true);
-		b[14].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 14, true);
-		b[15].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 15, true);
+		b[11].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 14);
+		b[12].init(vec2(1144 + RADIUS * 4.1, 433 - RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 7);
+		b[13].init(vec2(1144 + RADIUS * 4.1, 433), 1, &ballTex, &ballStripeTex, &ballShadowTex, 9);
+		b[14].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 2.2), 1, &ballTex, &ballStripeTex, &ballShadowTex, 15);
+		b[15].init(vec2(1144 + RADIUS * 4.1, 433 + RADIUS * 4.3), 1, &ballTex, &ballStripeTex, &ballShadowTex, 6);
 
 		b[0].mass = 100;
 		b[0].push(80000, vec2(1, 0));

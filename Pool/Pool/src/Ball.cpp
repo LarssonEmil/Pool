@@ -1,6 +1,6 @@
 #include "Ball.h"
 
-void Ball::init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStripeTex, sf::Texture* shadowTex, int colorType, bool _striped)
+void Ball::init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStripeTex, sf::Texture* shadowTex, int colorType)
 {
 	pos = _pos;
 	mass = _mass;
@@ -10,7 +10,10 @@ void Ball::init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStr
 
 	lastCollide = 0;
 
-	striped = _striped;
+	if (colorType > 8)
+		striped = true;
+	else
+		striped = false;
 
 	ball.setPosition(pos.x - RADIUS, pos.y - RADIUS);
 	ball.setTexture(*ballTex, true);

@@ -22,7 +22,7 @@ public:
 	sf::Sprite shadow;
 	bool striped;
 
-	void init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStripeTex, sf::Texture* shadowTex, int colorType, bool striped = false);
+	void init(vec2 _pos, int _mass, sf::Texture* ballTex, sf::Texture* ballStripeTex, sf::Texture* shadowTex, int colorType);
 	void push(float force, vec2 dir);
 	void drawShadow(sf::RenderTarget& target, sf::RenderStates states) const;
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;

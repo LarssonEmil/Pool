@@ -37,20 +37,27 @@ public:
 	{
 
 		float pow = val / max;
-		float slowIncrease = 1;
-		if (slow)
+		
+		if (!slow)
 		{
-			pow *= 0.2;
-			slowIncrease = 6;
-		} 
-
-
-		switch (id)
+			switch (id)
+			{
+			case 1: fire.setVolume(pow * 60); fire.setPitch(0.5 + pow);  fire.play(); return;
+			case 2: ballCollide.setVolume(pow * 60); ballCollide.setPitch(0.75 + pow / 2); ballCollide.play(); return;
+			case 3: wallCollide.setVolume(pow * 60); wallCollide.setPitch(0.2 + pow);  wallCollide.play(); return;
+			case 4: pocket.setVolume(pow * 50);  pocket.setPitch(pow);  pocket.play(); return;
+			}
+		}
+		else
 		{
-		case 1: fire.setVolume(pow * 60 * slowIncrease); fire.setPitch(0.5 + pow);  fire.play(); return;
-		case 2: ballCollide.setVolume(pow * 60 * slowIncrease); ballCollide.setPitch(0.75 + pow / 2); ballCollide.play(); return;
-		case 3: wallCollide.setVolume(pow * 60 * slowIncrease); wallCollide.setPitch(0.5 + pow);  wallCollide.play(); return;
-		case 4: pocket.setVolume(pow * 60 * slowIncrease);  pocket.setPitch(pow);  pocket.play(); return;
+			pow *= 0.3;
+			switch (id)
+			{
+			case 1: fire.setVolume(pow * 80); fire.setPitch(0.3 + pow);  fire.play(); return;
+			case 2: ballCollide.setVolume(pow * 80); ballCollide.setPitch(0.5 + pow / 2); ballCollide.play(); return;
+			case 3: wallCollide.setVolume(pow * 80); wallCollide.setPitch(0.1 + pow);  wallCollide.play(); return;
+			case 4: pocket.setVolume(pow * 50);  pocket.setPitch(0.7);  pocket.play(); return;
+			}
 		}
 	}
 };
